@@ -28,6 +28,16 @@ const data=reactive({
 
 })
 
+function addMoreItem(){
+  data.items.push({
+    description:'', 
+    quantity:'',
+    rate:'',
+    discount:'',
+    amount:''
+
+  })
+}
 </script>
 
 <template>
@@ -80,25 +90,25 @@ const data=reactive({
                     <th class="p-2">Discount</th>
                     <th class="p-2 w-[200px] text-right pr-5">Amount</th>
                 </tr>
-                <tr>
+                <tr v-for="(item,index) in data.items" :key="index">
                     <td class="py-1">
-                        <input  class="w-full pl-5" type="text" placeholder="Description" />
+                        <input v-model="item.description" class="w-full pl-5" type="text" placeholder="Description" />
                     </td>
                     <td class="">
-                        <input class="w-full" type="number" placeholder="Quantity" />
+                        <input v-model="item.quantity" class="w-full" type="number" placeholder="Quantity" />
                     </td>
                     <td class="">
-                        <input class="w-full" type="number" placeholder="Rate">
+                        <input v-model="item.rate" class="w-full" type="number" placeholder="Rate">
                     </td>
                     <td class="">
-                        <input class="w-full" type="number" placeholder="Discount">
+                        <input v-model="item.discount" class="w-full" type="number" placeholder="Discount">
                     </td>
                     <td class="py-1 pr-5 text-right text-gray-800">
                         $ 0.00
                     </td>
                 </tr>
             </table>
-            <button class="mt-5 bg-green-600 float-left hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <button @click="addMoreItem()" class="mt-5 bg-green-600 float-left hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Add More
             </button>
             <p class="mt-5">{{ data }}</p>
