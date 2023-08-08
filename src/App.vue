@@ -39,6 +39,10 @@ function addMoreItem(){
   })
 }
 
+function deleteItem(index){
+  data.items.splice(index,1)
+  
+}
 function getSubtotal(){
   data.subtotal=0
   data.items.forEach(item=>{
@@ -108,6 +112,7 @@ function getBalance(){
                     <th class="p-2">Quantity</th>
                     <th class="p-2">Rate</th>
                     <th class="p-2">Discount</th>
+                    <th class="p-2">Action</th>
                     <th class="p-2 w-[200px] text-right pr-5">Amount</th>
                 </tr>
                 <tr v-for="(item,index) in data.items" :key="index">
@@ -123,6 +128,9 @@ function getBalance(){
                     <td class="">
                         <input v-model="item.discount" class="w-full" type="number" placeholder="Discount">
                     </td>
+                    <td class="">
+                      <button @click="deleteItem(index)" class="m-2 bg-red-600 float-left hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                    </td>
                     <td class="py-1 pr-5 text-right text-gray-800">
                         $ {{ item.amount = item.quantity * item.rate - item.discount }}
                     </td>
@@ -131,7 +139,7 @@ function getBalance(){
             <button @click="addMoreItem()" class="mt-5 bg-green-600 float-left hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Add More
             </button>
-            <p class="mt-5">{{ data }}</p>
+            <!-- <p class="mt-5">{{ data }}</p> -->
         </div>
         <div class="mt-[200px]">
             <div class="flex justify-between">
@@ -166,7 +174,7 @@ function getBalance(){
                         <button class="m-5 bg-yellow-600 float-left hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                             Add Invoice
                         </button>
-                        <button class=" bg-red-600 float-left hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <button class="bg-red-600 float-left hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                             Print Invoice
                         </button>
                     </div>
