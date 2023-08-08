@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from "vue";
-
+import { invoice1 } from "./data/data.js";
 const data=reactive({
   sender:'',
   billTo:'',
@@ -61,6 +61,10 @@ function getTotal(){
 function getBalance(){
   data.balance=data.total-data.cash
   return data.balance
+}
+
+function printPage(){
+  window.print()
 }
 </script>
 
@@ -171,10 +175,10 @@ function getBalance(){
                             <span>Balance Due</span>
                             <input :value="getBalance()" readonly class="focus:ring-0 focus:ring-offset-0 text-right ml-2 pr-4 w-[200px] border-0" placeholder="Balance">
                         </p>
-                        <button class="m-5 bg-yellow-600 float-left hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                        <button @click="Object.assign(data,invoice1)" class="m-5 bg-yellow-600 float-left hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                             Add Invoice
                         </button>
-                        <button class="bg-red-600 float-left hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <button  @click="printPage()" class="bg-red-600 float-left hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                             Print Invoice
                         </button>
                     </div>
