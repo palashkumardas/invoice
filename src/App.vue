@@ -23,8 +23,8 @@ const data=reactive({
   subtotal:'',
   tax:'',
   balance:'',
-  total:'' 
-
+  total:'',
+  cash:'' 
 
 })
 
@@ -37,6 +37,26 @@ function addMoreItem(){
     amount:''
 
   })
+}
+
+function getSubtotal(){
+  data.subtotal=0
+  data.items.forEach(item=>{
+    data.subtotal+=item.amount
+
+  })
+  return data.subtotal
+}
+
+function getTotal(){
+  const tax=data.subtotal*data.tax/100
+  data.total=data.subtotal+tax
+  return data.total
+}
+
+function getBalance(){
+  data.balance=data.total-data.cash
+  return data.balance
 }
 </script>
 
@@ -104,7 +124,7 @@ function addMoreItem(){
                         <input v-model="item.discount" class="w-full" type="number" placeholder="Discount">
                     </td>
                     <td class="py-1 pr-5 text-right text-gray-800">
-                        $ 0.00
+                        $ {{ item.amount = item.quantity * item.rate - item.discount }}
                     </td>
                 </tr>
             </table>
@@ -125,7 +145,7 @@ function addMoreItem(){
                     <div class="mt-10 flex-y-5 text-right space-y-3 w-full">
                         <p>
                             <span>Subtotal</span>
-                            <input  readonly class="focus:ring-0 focus:ring-offset-0 text-right ml-2 pr-4 w-[200px] border-0" placeholder="Subtotal">
+                            <input :value="getSubtotal()" readonly class="focus:ring-0 focus:ring-offset-0 text-right ml-2 pr-4 w-[200px] border-0" placeholder="Subtotal">
                         </p>
                         <p>
                             <span>Tax</span>
@@ -133,11 +153,15 @@ function addMoreItem(){
                         </p>
                         <p>
                             <span>Total</span>
-                            <input  readonly class="focus:ring-0 focus:ring-offset-0 text-right ml-2 pr-4 w-[200px] border-0" placeholder="Total">
+                            <input :value="getTotal()" readonly class="focus:ring-0 focus:ring-offset-0 text-right ml-2 pr-4 w-[200px] border-0" placeholder="Total">
                         </p>
                         <p>
-                            <span>Balace Due</span>
-                            <input  readonly class="focus:ring-0 focus:ring-offset-0 text-right ml-2 pr-4 w-[200px] border-0" placeholder="Balance">
+                            <span>Receive Cash</span>
+                            <input  v-model="data.cash" type="number" class="tax text-right w-[200px] ml-2" placeholder="Receive Cash">
+                        </p>
+                        <p>
+                            <span>Balance Due</span>
+                            <input :value="getBalance()" readonly class="focus:ring-0 focus:ring-offset-0 text-right ml-2 pr-4 w-[200px] border-0" placeholder="Balance">
                         </p>
                         <button class="m-5 bg-yellow-600 float-left hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                             Add Invoice
